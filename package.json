@@ -1,0 +1,47 @@
+{
+  "name": "watchy",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@mantine/core": "^8.3.10",
+    "@mantine/hooks": "^8.3.10",
+    "@mantine/modals": "^8.3.13",
+    "@tabler/icons-react": "^3.36.1",
+    "@tailwindcss/vite": "^4.1.18",
+    "@tanstack/react-query": "^5.90.18",
+    "@tanstack/react-virtual": "^3.13.18",
+    "@tauri-apps/api": "^2",
+    "@tauri-apps/plugin-opener": "~2",
+    "clsx": "^2.1.1",
+    "mantine-contextmenu": "^8.3.13",
+    "nuqs": "^2.8.6",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "tailwind-merge": "^3.4.0",
+    "tailwind-preset-mantine": "^3.0.3",
+    "tailwindcss": "^4.1.18",
+    "wouter": "^3.9.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2",
+    "@types/node": "^25.0.3",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.6.0",
+    "postcss": "^8.5.6",
+    "postcss-preset-mantine": "^1.18.0",
+    "postcss-simple-vars": "^7.0.1",
+    "prettier": "^3.7.4",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.4"
+  }
+}
