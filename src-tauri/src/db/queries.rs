@@ -61,12 +61,10 @@ pub fn list_videos(
 
                 where_clauses.push(format!(
                     "
-                    EXISTS (
-                        SELECT 1
-                        FROM video_tags vt
-                        WHERE vt.video_id = v.id
-                            AND vt.tag_id IN ({})
-                    )
+                    (SELECT COUNT(DISTINCT vt.tag_id)
+                     FROM video_tags vt
+                     WHERE vt.video_id = v.id
+                       AND vt.tag_id IN ({})) = ?
                     ",
                     placeholders
                 ));
@@ -74,6 +72,7 @@ pub fn list_videos(
                 for tag_id in tag_ids {
                     params.push(Box::new(*tag_id));
                 }
+                params.push(Box::new(tag_ids.len() as i64));
             }
         }
 

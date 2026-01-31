@@ -4,7 +4,7 @@ import { ComponentPropsWithRef } from "react";
 import { Sizes } from "./types";
 
 export interface Text extends ComponentPropsWithRef<"p"> {
-  size?: Sizes;
+  size?: Sizes | string;
   fw?: number;
   c?: "black" | "white" | string;
   span?: boolean;

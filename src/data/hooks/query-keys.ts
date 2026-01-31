@@ -6,6 +6,7 @@ export const videoKeys = {
   all: () => ["videos"] as const,
   list: (filter?: unknown, sort?: unknown) =>
     ["videos", "list", filter, sort] as const,
+  get: (id: number) => ["videos", id],
 };
 
 export const channelKeys = {

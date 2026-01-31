@@ -21,6 +21,10 @@ export enum VideoSort {
   TitleDesc = "TitleDesc",
 }
 
+export const sortFields = Array.from(
+  new Set(Object.values(VideoSort).map((v) => v.replace(/(Asc|Desc)$/, ""))),
+);
+
 // =====================
 // SCHEMA TYPES
 // =====================

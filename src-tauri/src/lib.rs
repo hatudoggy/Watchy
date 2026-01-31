@@ -28,6 +28,7 @@ pub fn run() {
             commands::youtube::fetch_youtube_metadata,
             commands::library::list_videos,
             commands::library::add_video,
+            commands::library::get_video,
             commands::library::edit_video,
             commands::library::delete_video,
             commands::library::add_tag_to_video,

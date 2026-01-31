@@ -8,6 +8,8 @@ interface VideoThumbnailProps {
   className?: string;
   src: string;
   duration?: number;
+  h?: string | number;
+  w?: string | number;
   onClick?: (
     event: MouseEvent<HTMLImageElement, globalThis.MouseEvent>,
   ) => void;
@@ -17,6 +19,8 @@ export default function VideoThumbnail({
   className,
   src,
   duration,
+  h = 84,
+  w = "100%",
   onClick,
 }: VideoThumbnailProps) {
   return (
@@ -25,7 +29,8 @@ export default function VideoThumbnail({
         className={cn("aspect-video", className)}
         style={{ imageRendering: "auto" }}
         radius="md"
-        h={84}
+        h={h}
+        w={w}
         // w={150}
         fit="cover"
         src={src}

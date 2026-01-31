@@ -5,12 +5,15 @@ import Group from "@/components/ui/group";
 import Text from "@/components/ui/text";
 import Stack from "@/components/ui/stack";
 
-interface ListItemTagsProps {
+interface VideoItemTagsProps {
   tags: Tag[];
+  maxVisibleTags?: number;
 }
 
-export default function ListItemTags({ tags }: ListItemTagsProps) {
-  const maxVisibleTags = 2;
+export default function VideoItemTags({
+  tags,
+  maxVisibleTags = 2,
+}: VideoItemTagsProps) {
   const visibleTags = tags.slice(0, maxVisibleTags);
   const remainingTags = tags.slice(maxVisibleTags);
   const hasMoreTags = remainingTags.length > 0;

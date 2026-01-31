@@ -756,3 +756,83 @@ fn test_add_multiple_videos_with_same_tags() {
         assert!(tag_ids.contains(&tag2.id));
     }
 }
+
+// =====================
+// GET VIDEO TESTS
+// =====================
+
+#[test]
+fn test_get_video_with_tags() {
+    use watchy_lib::{db::dto::CreateTag, services::tags};
+
+    let mut conn = setup_test_db();
+
+    // Create tags
+    let tag1 = tags::add_tag(
+        &conn,
+        CreateTag {
+            name: "Tutorial".to_string(),
+            color: "#FF0000".to_string(),
+        },
+    )
+    .unwrap();
+
+    let tag2 = tags::add_tag(
+        &conn,
+        CreateTag {
+            name: "Review".to_string(),
+            color: "#00FF00".to_string(),
+        },
+    )
+    .unwrap();
+
+    // Add video with tags
+    let metadata = create_test_metadata("abc123", "Test Video", "TestChannel");
+    let video =
+        videos::add_video(&mut conn, metadata, Some(vec![tag1.clone(), tag2.clone()])).unwrap();
+
+    // Get video by ID
+    let result = videos::get_video(&conn, video.id);
+    assert!(result.is_ok());
+
+    let video_item = result.unwrap();
+    assert_eq!(video_item.video.id, video.id);
+    assert_eq!(video_item.video.title, "Test Video");
+    assert_eq!(video_item.video.channel_name, "TestChannel");
+    assert_eq!(
+        video_item.video.channel_link,
+        "https://youtube.com/@TestChannel"
+    );
+    assert_eq!(video_item.tags.len(), 2);
+
+    let tag_ids: Vec<i64> = video_item.tags.iter().map(|t| t.id).collect();
+    assert!(tag_ids.contains(&tag1.id));
+    assert!(tag_ids.contains(&tag2.id));
+}
+
+#[test]
+fn test_get_video_without_tags() {
+    let mut conn = setup_test_db();
+
+    // Add video without tags
+    let metadata = create_test_metadata("abc123", "Test Video", "TestChannel");
+    let video = videos::add_video(&mut conn, metadata, None).unwrap();
+
+    // Get video by ID
+    let result = videos::get_video(&conn, video.id);
+    assert!(result.is_ok());
+
+    let video_item = result.unwrap();
+    assert_eq!(video_item.video.id, video.id);
+    assert_eq!(video_item.video.title, "Test Video");
+    assert_eq!(video_item.tags.len(), 0);
+}
+
+#[test]
+fn test_get_video_not_found() {
+    let conn = setup_test_db();
+
+    // Try to get non-existent video
+    let result = videos::get_video(&conn, 999);
+    assert!(result.is_err());
+}

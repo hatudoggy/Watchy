@@ -1537,10 +1537,17 @@ fn test_filter_videos_by_multiple_tags() {
     let tag2_id = create_test_tag(&conn, "Tag2", "#222222");
     let tag3_id = create_test_tag(&conn, "Tag3", "#333333");
 
+    // Video 1 has both tag1 and tag2
     create_video_tag(&conn, video1_id, tag1_id).expect("Failed");
+    create_video_tag(&conn, video1_id, tag2_id).expect("Failed");
+
+    // Video 2 has only tag2
     create_video_tag(&conn, video2_id, tag2_id).expect("Failed");
+
+    // Video 3 has only tag3
     create_video_tag(&conn, video3_id, tag3_id).expect("Failed");
 
+    // Filter for videos with BOTH tag1 AND tag2
     let filter = VideoFilter {
         channel_id: None,
         status: None,
@@ -1552,11 +1559,9 @@ fn test_filter_videos_by_multiple_tags() {
     assert!(result.is_ok());
 
     let videos = result.unwrap();
-    assert_eq!(videos.len(), 2);
-
-    let titles: Vec<&str> = videos.iter().map(|v| v.title.as_str()).collect();
-    assert!(titles.contains(&"Video 1"));
-    assert!(titles.contains(&"Video 2"));
+    // Only video 1 should match (has both tags)
+    assert_eq!(videos.len(), 1);
+    assert_eq!(videos[0].title, "Video 1");
 }
 
 #[test]

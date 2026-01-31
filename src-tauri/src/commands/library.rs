@@ -59,6 +59,12 @@ pub fn remove_tag_from_video(db: State<Db>, video_id: i64, tag_id: i64) -> Resul
 }
 
 #[tauri::command]
+pub fn get_video(db: State<Db>, id: i64) -> Result<VideoItemWithTags, String> {
+    let conn = db.0.lock().map_err(|e| e.to_string())?;
+    videos::get_video(&conn, id)
+}
+
+#[tauri::command]
 pub fn get_channel_details(db: State<Db>, id: i64) -> Result<Channel, String> {
     let conn = db.0.lock().map_err(|e| e.to_string())?;
     videos::get_channel_details(&conn, id)
