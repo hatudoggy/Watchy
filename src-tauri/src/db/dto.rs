@@ -3,6 +3,7 @@ use serde::{Deserialize, Serialize};
 use crate::db::schema::{Tag, VideoStatus};
 
 #[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct VideoFilter {
     pub channel_id: Option<i64>,
     pub status: Option<VideoStatus>,

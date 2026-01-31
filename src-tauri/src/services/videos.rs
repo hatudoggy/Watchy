@@ -124,6 +124,16 @@ pub fn remove_tag_from_video(conn: &Connection, video_id: i64, tag_id: i64) -> R
     queries::delete_video_tag(conn, video_id, tag_id)
 }
 
+pub fn get_video(conn: &Connection, id: i64) -> Result<VideoItemWithTags, String> {
+    let video = queries::get_video(conn, id)?;
+    let tags = queries::list_video_tags(conn, &[video.id])?;
+
+    Ok(VideoItemWithTags {
+        video,
+        tags: tags.get(&id).cloned().unwrap_or_default(),
+    })
+}
+
 pub fn get_channel_details(conn: &Connection, id: i64) -> Result<Channel, String> {
     queries::get_channel(conn, id)
 }

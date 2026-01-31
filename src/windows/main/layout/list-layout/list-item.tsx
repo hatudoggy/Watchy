@@ -3,15 +3,16 @@ import { Tooltip } from "@mantine/core";
 import { Tag, VideoStatus } from "@/data/types/database.types";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import ChannelTooltip from "./channel-tooltip";
-import ListItemTags from "./list-item-tags";
+import VideoItemTags from "../../components/video-item-tags";
 import { useContextMenu } from "mantine-contextmenu";
 import { MouseEvent } from "react";
 import { IconEdit, IconInfoCircle, IconTrash } from "@tabler/icons-react";
 import { useDeleteVideo } from "@/data/hooks/mutations/use-delete-video";
-import { modals } from "@mantine/modals";
 import VideoThumbnail from "@/windows/main/components/video-thumbnail";
 import Group from "@/components/ui/group";
 import Stack from "@/components/ui/stack";
+import { modals } from "@mantine/modals";
+import { modalsManager } from "../../modals/modalsManager";
 
 interface ListItemProps {
   id: number;
@@ -50,13 +51,13 @@ export default function ListItem({
           key: "details",
           icon: <IconInfoCircle size={16} />,
           title: "Details",
-          onClick: () => {},
+          onClick: () => modalsManager.videoDetails({ videoId: id }),
         },
         {
           key: "edit",
           icon: <IconEdit size={16} />,
           title: "Edit",
-          onClick: () => {},
+          onClick: () => modalsManager.videoEdit({ videoId: id }),
         },
         {
           key: "delete",
@@ -110,7 +111,7 @@ export default function ListItem({
       />
       <Stack className="flex-1 justify-between">
         <Stack className="gap-0.5">
-          <Tooltip label={title} color="gray">
+          <Tooltip label={title} color="gray" openDelay={500}>
             <Text
               span
               style={{ display: "inline-block", maxWidth: "fit-content" }}
@@ -131,6 +132,7 @@ export default function ListItem({
             label={<ChannelTooltip id={channel.id} />}
             position="bottom-start"
             color="gray"
+            openDelay={500}
           >
             <Text
               span
@@ -147,7 +149,7 @@ export default function ListItem({
           </Tooltip>
         </Stack>
         <Stack>
-          <ListItemTags tags={tags} />
+          <VideoItemTags tags={tags} />
         </Stack>
       </Stack>
     </Group>

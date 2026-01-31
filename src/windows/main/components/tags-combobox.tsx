@@ -68,7 +68,7 @@ export default function TagsCombobox({
   return (
     <Combobox
       store={combobox}
-      withinPortal={false}
+      // withinPortal={false}
       onOptionSubmit={(val) => {
         setSearch("");
         const selectedTag = allTags.find((t) => t.name === val);
@@ -122,6 +122,7 @@ export default function TagsCombobox({
             {tags.length === 0 && <IconTags opacity={0.8} size={16} />}
             <Combobox.EventsTarget>
               <PillsInput.Field
+                className="flex-1"
                 onClick={() => combobox.openDropdown()}
                 onFocus={() => combobox.openDropdown()}
                 onBlur={() => combobox.closeDropdown()}

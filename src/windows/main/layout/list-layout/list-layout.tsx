@@ -1,35 +1,16 @@
 import Text from "@/components/ui/text";
-import { useVideos } from "@/data/hooks/queries/use-videos";
-import { useSearchFilter } from "@/data/states/use-search-filter";
-import { useStatusFilter } from "@/data/states/use-status-filter";
 import { IconVideoOff } from "@tabler/icons-react";
 import ListItem from "./list-item";
-import { useRef } from "react";
-import { useVirtualizer } from "@tanstack/react-virtual";
 import Stack from "@/components/ui/stack";
+import { useFilteredVideoList } from "./hooks/use-filtered-video-list";
+import { useListVirtualization } from "./hooks/use-list-virtualization";
 
 export default function ListLayout() {
-  const [status] = useStatusFilter();
-  const [search] = useSearchFilter();
+  const { videos, search } = useFilteredVideoList();
 
-  const { data } = useVideos({
-    status,
-    search,
-  });
+  const { listRef, listVirtualizer } = useListVirtualization(videos.length);
 
-  const videos = data ?? [];
-
-  const listRef = useRef(null);
-
-  const listVirtualizer = useVirtualizer({
-    count: videos.length,
-    getScrollElement: () => listRef.current,
-    estimateSize: () => 112,
-    overscan: 5,
-  });
-
-  if (!data) return null;
-  if (data.length === 0) return <EmptyState search={search} />;
+  if (videos.length === 0) return <EmptyState search={search} />;
 
   return (
     <div

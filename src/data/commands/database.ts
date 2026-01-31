@@ -36,6 +36,12 @@ export const addVideo = async (params: {
   });
 };
 
+export const getVideo = async (params: {
+  id: number;
+}): Promise<VideoItemWithTags> => {
+  return invokeTauri<VideoItemWithTags>("get_video", params);
+};
+
 export const editVideo = async (params: {
   id: number;
   video: UpdateVideo;
