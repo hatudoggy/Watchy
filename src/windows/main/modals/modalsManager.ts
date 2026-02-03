@@ -2,6 +2,28 @@ import { modals } from "@mantine/modals";
 import { MODAL_IDS } from "./modals";
 import { VideoDetailsModalProps } from "./video-details.modal";
 import { VideoEditModalProps } from "./video-edit.modal";
+import { SettingsModalProps } from "./settings.modal";
+
+const overlayStyle = {
+  withCloseButton: false,
+  centered: true,
+  overlayProps: {
+    backgroundOpacity: 0.65,
+    blur: 6,
+  },
+  styles: {
+    content: {
+      background: "transparent",
+      boxShadow: "none",
+      border: "none",
+      padding: 0,
+    },
+
+    body: {
+      padding: 0,
+    },
+  },
+};
 
 export const modalsManager = {
   videoDetails(props: VideoDetailsModalProps) {
@@ -9,24 +31,7 @@ export const modalsManager = {
       modal: MODAL_IDS.videoDetails,
       // title: "Video Details",
       innerProps: props,
-      withCloseButton: false,
-      overlayProps: {
-        backgroundOpacity: 0.55,
-        blur: 3,
-      },
-
-      styles: {
-        content: {
-          background: "transparent",
-          boxShadow: "none",
-          border: "none",
-          padding: 0,
-        },
-
-        body: {
-          padding: 0,
-        },
-      },
+      ...overlayStyle,
     });
   },
 
@@ -34,24 +39,15 @@ export const modalsManager = {
     return modals.openContextModal({
       modal: MODAL_IDS.videoEdit,
       innerProps: props,
-      withCloseButton: false,
-      overlayProps: {
-        backgroundOpacity: 0.55,
-        blur: 3,
-      },
-      centered: true,
-      styles: {
-        content: {
-          background: "transparent",
-          boxShadow: "none",
-          border: "none",
-          padding: 0,
-        },
+      ...overlayStyle,
+    });
+  },
 
-        body: {
-          padding: 0,
-        },
-      },
+  settings(props: SettingsModalProps) {
+    return modals.openContextModal({
+      modal: MODAL_IDS.settings,
+      innerProps: props,
+      ...overlayStyle,
     });
   },
 };
