@@ -3,7 +3,14 @@ import Stack from "@/components/ui/stack";
 import Text from "@/components/ui/text";
 import { useChannel } from "@/data/hooks/queries/use-channel";
 import { useVideo } from "@/data/hooks/queries/use-video";
-import { Avatar, Button, CopyButton, Divider, SimpleGrid } from "@mantine/core";
+import {
+  Avatar,
+  Button,
+  CopyButton,
+  Divider,
+  SimpleGrid,
+  Title,
+} from "@mantine/core";
 import { ContextModalProps } from "@mantine/modals";
 import {
   IconCalendar,
@@ -13,17 +20,21 @@ import {
   IconEye,
   IconTag,
   IconThumbUp,
+  IconX,
 } from "@tabler/icons-react";
 import VideoThumbnail from "../components/video-thumbnail";
 import VideoItemTags from "../components/video-item-tags";
 import { openUrl } from "@tauri-apps/plugin-opener";
+import IconButton from "@/components/ui/icon-button";
 
 export interface VideoDetailsModalProps {
   videoId: number;
 }
 
 export default function VideoDetailsModal({
+  id,
   innerProps,
+  context,
 }: ContextModalProps<VideoDetailsModalProps>) {
   const { data } = useVideo(innerProps.videoId);
   const video = data?.video;
@@ -35,11 +46,24 @@ export default function VideoDetailsModal({
 
   return (
     <Stack className="p-4" gap="lg">
-      <VideoThumbnail
-        src={video.thumbnail}
-        h="100%"
-        duration={video.duration || 0}
-      />
+      <Group justify="space-between">
+        <Title order={2}>Video Details</Title>
+        <IconButton
+          radius="xl"
+          variant="subtle"
+          color="white"
+          onClick={() => context.closeModal(id)}
+        >
+          <IconX />
+        </IconButton>
+      </Group>
+      <Stack className="mx-auto w-9/12">
+        <VideoThumbnail
+          src={video.thumbnail}
+          h="100%"
+          duration={video.duration || 0}
+        />
+      </Stack>
 
       <Stack gap="xs">
         <Text c="white" size="xl" fw={700} style={{ lineHeight: 1.2 }}>
