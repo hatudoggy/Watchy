@@ -1,3 +1,7 @@
+// ===========================================
+// Commands
+// ===========================================
+
 export const ytPreviewKeys = {
   get: (link: string) => ["youtube-preview", link],
 };
@@ -15,4 +19,13 @@ export const channelKeys = {
 
 export const tagKeys = {
   all: () => ["tags"] as const,
+};
+
+// ===========================================
+// Settings
+// ===========================================
+
+export const settingsKeys = {
+  all: () => ["settings"] as const,
+  // theme: () => ["settings", "theme"],
 };
