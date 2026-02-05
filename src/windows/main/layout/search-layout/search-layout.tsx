@@ -19,7 +19,7 @@ import TagsCombobox from "../../components/tags-combobox";
 import { useFilterTagsState } from "./hooks/use-filter-tags-state";
 import { useTagsFilter } from "@/data/states/use-tags-filter";
 import Text from "@/components/ui/text";
-import { modalsManager } from "../../modals/modalsManager";
+import { modalsManager } from "../../modals/modals-manager";
 
 export default function SearchLayout() {
   const [searchFilter, setSearchFilter] = useSearchFilter();

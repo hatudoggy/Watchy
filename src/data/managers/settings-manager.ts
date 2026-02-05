@@ -17,11 +17,14 @@ export const getSettings = async () => {
   const store = await load(SETTINGS_FILE);
 
   const theme = await store.get<MantineColorScheme>("theme");
+  const downloadPath = await store.get<string>("download-path");
 
   if (!theme) throw new Error("Cannot retrieve theme");
+  if (!downloadPath) throw new Error("Cannot retrieve download path");
 
   return {
     theme,
+    downloadPath,
   };
 };
 

@@ -21,6 +21,7 @@ import {
 import IconButton from "@/components/ui/icon-button";
 import { useSettings } from "@/data/hooks/queries/use-settings";
 import { useEditSettings } from "@/data/hooks/mutations/use-edit-settings";
+import { open } from "@tauri-apps/plugin-dialog";
 
 export interface SettingsModalProps {}
 
@@ -29,7 +30,7 @@ export default function SettingsModal({
   context,
 }: ContextModalProps<SettingsModalProps>) {
   return (
-    <Stack className="overflow-x-hidden" gap="md">
+    <Stack className="overflow-x-hidden" gap="lg">
       <Group justify="space-between">
         <Title className="text-white" order={2}>
           Settings
@@ -44,9 +45,11 @@ export default function SettingsModal({
         </IconButton>
       </Group>
 
-      <AppearanceSection />
-      <DataManagementSection />
-      <DownloadPathSection />
+      <Stack className="gap-6">
+        <AppearanceSection />
+        <DataManagementSection />
+        <DownloadPathSection />
+      </Stack>
     </Stack>
   );
 }
@@ -153,6 +156,22 @@ function DataManagementSection() {
 }
 
 function DownloadPathSection() {
+  const { data } = useSettings();
+  const { mutate } = useEditSettings();
+
+  const handleSelectPath = async () => {
+    const path = await open({
+      multiple: false,
+      directory: true,
+    });
+
+    if (!path) return;
+
+    mutate({ key: "download-path", value: path });
+  };
+
+  if (!data) return;
+
   return (
     <Stack gap="xs">
       <ItemLabel label="Downloads" />
@@ -163,9 +182,11 @@ function DownloadPathSection() {
         placeholder="Select a folder..."
         classNames={{
           input:
-            "rounded-md border bg-white/10 border-white/10 bg-white/5 px-2 focus:border-white/40 cursor-pointer",
+            "text-white rounded-md border bg-white/10 border-white/10 bg-white/5 px-2 focus:border-white/40 cursor-pointer",
         }}
         readOnly
+        value={data.downloadPath}
+        onClick={() => handleSelectPath()}
       />
     </Stack>
   );
