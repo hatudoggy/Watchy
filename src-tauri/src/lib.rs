@@ -2,6 +2,7 @@ use std::sync::Mutex;
 
 use rusqlite::Connection;
 use tauri::Manager;
+use tauri_plugin_log::Target;
 
 use crate::constants::SETTINGS_FILE;
 use tauri_plugin_store::StoreExt;
@@ -17,6 +18,18 @@ pub struct Db(pub Mutex<Connection>);
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(
+            tauri_plugin_log::Builder::new()
+                .targets([
+                    Target::new(tauri_plugin_log::TargetKind::Stdout),
+                    Target::new(tauri_plugin_log::TargetKind::LogDir { file_name: None }),
+                    Target::new(tauri_plugin_log::TargetKind::Webview),
+                ])
+                .rotation_strategy(tauri_plugin_log::RotationStrategy::KeepAll)
+                .max_file_size(40000)
+                .level(tauri_plugin_log::log::LevelFilter::Info)
+                .build(),
+        )
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(tauri_plugin_opener::init())
