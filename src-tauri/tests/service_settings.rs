@@ -209,7 +209,7 @@ fn test_import_db_data_into_empty_database() {
         }],
     };
 
-    let result = import_db_data(&mut conn, database);
+    let result = import_db_data(&mut conn, &database);
     assert!(result.is_ok());
 
     // Verify imported data
@@ -274,7 +274,7 @@ fn test_import_db_data_replaces_existing_data() {
         }],
     };
 
-    let result = import_db_data(&mut conn, database);
+    let result = import_db_data(&mut conn, &database);
     assert!(result.is_ok());
 
     // Verify old data is gone and new data exists
@@ -301,7 +301,7 @@ fn test_import_db_data_empty_import() {
         video_tags: vec![],
     };
 
-    let result = import_db_data(&mut conn, database);
+    let result = import_db_data(&mut conn, &database);
     assert!(result.is_ok());
 
     // All tables should be empty after importing empty data
@@ -327,7 +327,7 @@ fn test_export_import_round_trip() {
     let exported_data = export_db_data(&conn1).unwrap();
 
     // Import into second database
-    let result = import_db_data(&mut conn2, exported_data);
+    let result = import_db_data(&mut conn2, &exported_data);
     assert!(result.is_ok());
 
     // Export from second database
@@ -354,7 +354,7 @@ fn test_export_import_maintains_relationships() {
 
     // Export and import
     let exported_data = export_db_data(&conn1).unwrap();
-    import_db_data(&mut conn2, exported_data).unwrap();
+    import_db_data(&mut conn2, &exported_data).unwrap();
 
     // Verify relationships are maintained
     let re_exported = export_db_data(&conn2).unwrap();
@@ -400,7 +400,7 @@ fn test_import_db_data_multiple_times() {
     };
 
     // First import
-    import_db_data(&mut conn, database1).unwrap();
+    import_db_data(&mut conn, &database1).unwrap();
     let exported1 = export_db_data(&conn).unwrap();
     assert_eq!(exported1.channels.len(), 1);
     assert_eq!(exported1.channels[0].name, "Channel 1");
@@ -422,7 +422,7 @@ fn test_import_db_data_multiple_times() {
     };
 
     // Second import (should replace first)
-    import_db_data(&mut conn, database2).unwrap();
+    import_db_data(&mut conn, &database2).unwrap();
     let exported2 = export_db_data(&conn).unwrap();
     assert_eq!(exported2.channels.len(), 1);
     assert_eq!(exported2.channels[0].name, "Channel 2");
@@ -448,7 +448,7 @@ fn test_import_db_data_preserves_timestamps() {
         video_tags: vec![],
     };
 
-    import_db_data(&mut conn, database).unwrap();
+    import_db_data(&mut conn, &database).unwrap();
 
     let exported = export_db_data(&conn).unwrap();
     assert_eq!(exported.tags[0].created_at, created_at);

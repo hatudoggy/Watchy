@@ -23,7 +23,7 @@ pub fn get_all_settings(store: &Store<Wry>) -> Result<SettingsStore, String> {
     })
 }
 
-pub fn set_all_settings(store: &Store<Wry>, settings: SettingsStore) -> Result<(), String> {
+pub fn set_all_settings(store: &Store<Wry>, settings: &SettingsStore) -> Result<(), String> {
     if let Some(path) = &settings.download_path {
         store.set(SETTINGS_KEY_DOWNLOAD_PATH, path.as_str());
     }

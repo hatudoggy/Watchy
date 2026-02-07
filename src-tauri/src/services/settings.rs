@@ -22,7 +22,7 @@ pub fn export_db_data(conn: &Connection) -> Result<DatabaseData, String> {
     })
 }
 
-pub fn import_db_data(conn: &mut Connection, data: DatabaseData) -> Result<(), String> {
+pub fn import_db_data(conn: &mut Connection, data: &DatabaseData) -> Result<(), String> {
     let tx = conn.transaction().map_err(|e| e.to_string())?;
 
     // Clear data for now to prevent key conflict

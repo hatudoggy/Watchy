@@ -10,7 +10,7 @@ import {
   Title,
   useMantineColorScheme,
 } from "@mantine/core";
-import { ContextModalProps } from "@mantine/modals";
+import { ContextModalProps, modals } from "@mantine/modals";
 import {
   IconDatabaseExport,
   IconDatabaseImport,
@@ -21,7 +21,9 @@ import {
 import IconButton from "@/components/ui/icon-button";
 import { useSettings } from "@/data/hooks/queries/use-settings";
 import { useEditSettings } from "@/data/hooks/mutations/use-edit-settings";
-import { open } from "@tauri-apps/plugin-dialog";
+import { useSetDownloadPath } from "@/data/hooks/mutations/settings/use-set-download-path";
+import { useExportData } from "@/data/hooks/mutations/settings/use-export-data";
+import { useImportData } from "@/data/hooks/mutations/settings/use-import-data";
 
 export interface SettingsModalProps {}
 
@@ -129,6 +131,26 @@ function AppearanceSection() {
 }
 
 function DataManagementSection() {
+  const { mutate: exportData } = useExportData();
+  const { mutate: importData } = useImportData();
+
+  const handleImport = () => {
+    modals.openConfirmModal({
+      title: "Overwrite Data?",
+      centered: true,
+      size: "sm",
+      children: (
+        <Text size="sm">
+          Importing will overwrite existing data. Are you sure you want to
+          proceed?
+        </Text>
+      ),
+      labels: { confirm: "Confirm", cancel: "Cancel" },
+      confirmProps: { color: "red" },
+      onConfirm: () => importData(),
+    });
+  };
+
   return (
     <Stack gap="xs">
       <ItemLabel label="Data Management" />
@@ -138,7 +160,7 @@ function DataManagementSection() {
           variant="filled"
           className="bg-white/20"
           leftSection={<IconDatabaseImport size={16} />}
-          onClick={() => {}} // Handle Import
+          onClick={() => handleImport()}
         >
           Import Data
         </Button>
@@ -146,7 +168,7 @@ function DataManagementSection() {
           variant="filled"
           className="bg-white/20"
           leftSection={<IconDatabaseExport size={16} />}
-          onClick={() => {}} // Handle Export
+          onClick={() => exportData()}
         >
           Export Data
         </Button>
@@ -157,17 +179,10 @@ function DataManagementSection() {
 
 function DownloadPathSection() {
   const { data } = useSettings();
-  const { mutate } = useEditSettings();
+  const { mutate } = useSetDownloadPath();
 
   const handleSelectPath = async () => {
-    const path = await open({
-      multiple: false,
-      directory: true,
-    });
-
-    if (!path) return;
-
-    mutate({ key: "download-path", value: path });
+    mutate();
   };
 
   if (!data) return;

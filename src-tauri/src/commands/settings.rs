@@ -63,7 +63,7 @@ pub fn export_data(app: AppHandle, db: State<Db>) -> Result<(), String> {
 }
 
 #[tauri::command]
-pub fn import_data(app: AppHandle, db: State<Db>) -> Result<(), String> {
+pub fn import_data(app: AppHandle, db: State<Db>) -> Result<SettingsStore, String> {
     // Open file picker
     let file = retrieve_file_picker_file_path(&app)?;
     let path = file.into_path().map_err(|e| e.to_string())?;
@@ -74,14 +74,14 @@ pub fn import_data(app: AppHandle, db: State<Db>) -> Result<(), String> {
 
     // Perform database insert operation for database data
     let mut conn = db.0.lock().map_err(|e| e.to_string())?;
-    import_db_data(&mut conn, data.database)?;
+    import_db_data(&mut conn, &data.database)?;
 
     // Perform store set for settings data
     let store = load_settings_store(&app)?;
-    set_all_settings(&store, data.settings)?;
+    set_all_settings(&store, &data.settings)?;
 
     // Return ok if success
-    Ok(())
+    Ok(data.settings)
 }
 
 fn retrieve_file_picker_folder_path(app: &AppHandle) -> Result<FilePath, String> {

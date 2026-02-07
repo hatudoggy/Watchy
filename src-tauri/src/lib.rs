@@ -48,6 +48,9 @@ pub fn run() {
             commands::library::add_tag,
             commands::library::edit_tag,
             commands::library::delete_tag,
+            commands::settings::set_download_path,
+            commands::settings::export_data,
+            commands::settings::import_data,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

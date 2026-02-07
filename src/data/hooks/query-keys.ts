@@ -14,6 +14,7 @@ export const videoKeys = {
 };
 
 export const channelKeys = {
+  all: () => ["channels"] as const,
   get: (id: number) => ["channels", id],
 };
 
