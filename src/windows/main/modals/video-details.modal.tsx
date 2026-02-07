@@ -1,8 +1,8 @@
 import Group from "@/components/ui/group";
 import Stack from "@/components/ui/stack";
 import Text from "@/components/ui/text";
-import { useChannel } from "@/data/hooks/queries/use-channel";
-import { useVideo } from "@/data/hooks/queries/use-video";
+import { useChannel } from "@/data/hooks/queries/channel-query";
+import { useVideo } from "@/data/hooks/queries/video-query";
 import {
   Avatar,
   Button,
@@ -38,7 +38,7 @@ export default function VideoDetailsModal({
 }: ContextModalProps<VideoDetailsModalProps>) {
   const { data } = useVideo(innerProps.videoId);
   const video = data?.video;
-  const { data: channel } = useChannel(video?.channelId || 0);
+  const { data: channel } = useChannel(video?.channelId || -1);
 
   if (!data || !video) return null;
 

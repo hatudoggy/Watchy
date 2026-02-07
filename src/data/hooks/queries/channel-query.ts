@@ -6,5 +6,11 @@ export const useChannel = (id: number) => {
   return useQuery({
     queryKey: channelKeys.get(id),
     queryFn: () => getChannelDetails({ id }),
+    enabled: id != -1,
+    meta: {
+      successMessage: `Successfully fetched channel with id: ${id}`,
+      errorMessage: `Error fetching channel with id: ${id}`,
+      log: true,
+    },
   });
 };

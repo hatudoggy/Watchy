@@ -1,4 +1,4 @@
-import { useTags } from "@/data/hooks/queries/use-tags";
+import { useTags } from "@/data/hooks/queries/tag-query";
 import { useTagsFilter } from "@/data/states/use-tags-filter";
 
 export const useFilterTagsState = () => {

@@ -12,5 +12,10 @@ export const useYoutubePreview = (
     enabled: Boolean(link) && (options?.enabled ?? true),
     staleTime: 100 * 60 * 5,
     retry: 1,
+    meta: {
+      successMessage: `Successfully fetched video preview`,
+      errorMessage: `Error fetching video preview`,
+      log: true,
+    },
   });
 };

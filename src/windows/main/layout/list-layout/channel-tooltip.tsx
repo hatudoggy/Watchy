@@ -2,7 +2,7 @@ import Image from "@/components/ui/image";
 import Text from "@/components/ui/text";
 import { IconCircleCheckFilled } from "@tabler/icons-react";
 import { formatSubscribers } from "@/utils/formatter";
-import { useChannel } from "@/data/hooks/queries/use-channel";
+import { useChannel } from "@/data/hooks/queries/channel-query";
 import { Skeleton } from "@mantine/core";
 import Group from "@/components/ui/group";
 import Stack from "@/components/ui/stack";

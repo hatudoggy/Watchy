@@ -7,10 +7,10 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { ModalsProvider } from "@mantine/modals";
 import { modals } from "./modals/modals";
 import ThemeLoader from "@/style/theme-loader";
-import { warn, debug, trace, info, error } from "@tauri-apps/plugin-log";
 import { MantineProvider } from "@mantine/core";
 import { theme } from "@/style/mantine-theme";
 import { queryClient } from "@/data/query-client";
+import { warn, debug, trace, info, error } from "@tauri-apps/plugin-log";
 
 import "mantine-contextmenu/styles.css";
 import "@/global.css";
@@ -37,8 +37,13 @@ function forwardConsole(
   logger: (message: string) => Promise<void>,
 ) {
   const original = console[fnName];
-  console[fnName] = (message) => {
-    original(message);
+  console[fnName] = (...args: any[]) => {
+    original(...args);
+    const message = args
+      .map((arg) =>
+        typeof arg === "object" ? JSON.stringify(arg) : String(arg),
+      )
+      .join(" ");
     logger(message);
   };
 }

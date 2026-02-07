@@ -1,4 +1,4 @@
-import { useEditTag } from "@/data/hooks/mutations/use-edit-tag";
+import { useEditTag } from "@/data/hooks/mutations/tag-mutation";
 import { Tag } from "@/data/types/database.types";
 import {
   Button,

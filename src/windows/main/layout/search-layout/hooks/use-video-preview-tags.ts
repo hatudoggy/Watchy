@@ -1,4 +1,4 @@
-import { useTags } from "@/data/hooks/queries/use-tags";
+import { useTags } from "@/data/hooks/queries/tag-query";
 import { useNewVideoTags } from "@/data/states/use-new-video-tags";
 
 export function useVideoPreviewTags() {

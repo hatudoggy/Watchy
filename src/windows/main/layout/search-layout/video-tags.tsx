@@ -1,4 +1,4 @@
-import { useAddTag } from "@/data/hooks/mutations/use-add-tag";
+import { useAddTag } from "@/data/hooks/mutations/tag-mutation";
 import { useEffect } from "react";
 import TagsCombobox from "@/windows/main/components/tags-combobox";
 import { useVideoPreviewTags } from "./hooks/use-video-preview-tags";

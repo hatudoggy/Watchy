@@ -6,5 +6,10 @@ export const useSettings = () => {
   return useQuery({
     queryKey: settingsKeys.all(),
     queryFn: () => getSettings(),
+    meta: {
+      successMessage: "Successfully fetched settings",
+      errorMessage: "Error fetching settings",
+      log: true,
+    },
   });
 };

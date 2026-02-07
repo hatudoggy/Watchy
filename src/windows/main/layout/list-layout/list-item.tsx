@@ -7,7 +7,7 @@ import VideoItemTags from "../../components/video-item-tags";
 import { useContextMenu } from "mantine-contextmenu";
 import { MouseEvent } from "react";
 import { IconEdit, IconInfoCircle, IconTrash } from "@tabler/icons-react";
-import { useDeleteVideo } from "@/data/hooks/mutations/use-delete-video";
+import { useDeleteVideo } from "@/data/hooks/mutations/video-mutation";
 import VideoThumbnail from "@/windows/main/components/video-thumbnail";
 import Group from "@/components/ui/group";
 import Stack from "@/components/ui/stack";

@@ -9,11 +9,13 @@ import {
 } from "@tabler/icons-react";
 import Text from "@/components/ui/text";
 import TagsCombobox from "../components/tags-combobox";
-import { useTags } from "@/data/hooks/queries/use-tags";
-import { useVideo } from "@/data/hooks/queries/use-video";
-import { useEditVideo } from "@/data/hooks/mutations/use-edit-video";
-import { useAddVideoTag } from "@/data/hooks/mutations/use-add-video-tag";
-import { useRemoveVideoTag } from "@/data/hooks/mutations/use-remove-video-tag";
+import { useTags } from "@/data/hooks/queries/tag-query";
+import { useVideo } from "@/data/hooks/queries/video-query";
+import { useEditVideo } from "@/data/hooks/mutations/video-mutation";
+import {
+  useAddVideoTag,
+  useRemoveVideoTag,
+} from "@/data/hooks/mutations/video-tag-mutation";
 import { VideoStatus } from "@/data/types/database.types";
 import VideoItemSimple from "../components/video-item-simple";
 import Group from "@/components/ui/group";

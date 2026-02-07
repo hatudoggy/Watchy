@@ -19,11 +19,13 @@ import {
   IconX,
 } from "@tabler/icons-react";
 import IconButton from "@/components/ui/icon-button";
-import { useSettings } from "@/data/hooks/queries/use-settings";
-import { useEditSettings } from "@/data/hooks/mutations/use-edit-settings";
-import { useSetDownloadPath } from "@/data/hooks/mutations/settings/use-set-download-path";
-import { useExportData } from "@/data/hooks/mutations/settings/use-export-data";
-import { useImportData } from "@/data/hooks/mutations/settings/use-import-data";
+import { useSettings } from "@/data/hooks/queries/settings-query";
+import {
+  useEditSettings,
+  useSetDownloadPath,
+  useExportData,
+  useImportData,
+} from "@/data/hooks/mutations/settings-mutation";
 
 export interface SettingsModalProps {}
 

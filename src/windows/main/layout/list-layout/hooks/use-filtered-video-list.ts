@@ -1,4 +1,4 @@
-import { useVideos } from "@/data/hooks/queries/use-videos";
+import { useVideos } from "@/data/hooks/queries/video-query";
 import { useSearchFilter } from "@/data/states/use-search-filter";
 import { useSortVideos } from "@/data/states/use-sort-videos";
 import { useStatusFilter } from "@/data/states/use-status-filter";
