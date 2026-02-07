@@ -8,7 +8,7 @@ export const useYoutubePreview = (
 ) => {
   return useQuery({
     queryKey: ytPreviewKeys.get(link),
-    queryFn: () => fetchYoutubeMetadata(link),
+    queryFn: () => fetchYoutubeMetadata({ url: link }),
     enabled: Boolean(link) && (options?.enabled ?? true),
     staleTime: 100 * 60 * 5,
     retry: 1,
