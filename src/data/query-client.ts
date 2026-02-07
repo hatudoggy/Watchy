@@ -1,4 +1,8 @@
 import { MutationCache, QueryCache, QueryClient } from "@tanstack/react-query";
+import {
+  showErrorNotification,
+  showOkNotification,
+} from "./managers/notification-manager";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -13,6 +17,7 @@ export const queryClient = new QueryClient({
     onError: (err, query) => {
       const meta = query.meta;
       if (meta?.errorMessage) {
+        showErrorNotification("Fetch Failed", meta.errorMessage);
       }
       if (meta?.log === true)
         console.error(
@@ -23,8 +28,6 @@ export const queryClient = new QueryClient({
     },
     onSuccess: (_data, query) => {
       const meta = query.meta;
-      if (meta?.successMessage) {
-      }
       if (meta?.log === true)
         console.log(`Query Success [${query.queryKey}]:`, meta.successMessage);
     },
@@ -33,6 +36,7 @@ export const queryClient = new QueryClient({
     onError: (err, _vars, _ctx, mut) => {
       const meta = mut.meta;
       if (meta?.errorMessage) {
+        showErrorNotification("Action Failed", meta.errorMessage);
       }
       if (meta?.log === true)
         console.error(
@@ -44,6 +48,7 @@ export const queryClient = new QueryClient({
     onSuccess: (_data, _vars, _ctx, mut) => {
       const meta = mut.meta;
       if (meta?.successMessage) {
+        showOkNotification("Success", meta.successMessage);
       }
       if (meta?.log === true)
         console.log(

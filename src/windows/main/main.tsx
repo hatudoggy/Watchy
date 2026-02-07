@@ -11,9 +11,12 @@ import { MantineProvider } from "@mantine/core";
 import { theme } from "@/style/mantine-theme";
 import { queryClient } from "@/data/query-client";
 import { warn, debug, trace, info, error } from "@tauri-apps/plugin-log";
+import { Notifications } from "@mantine/notifications";
 
 import "mantine-contextmenu/styles.css";
+import "@mantine/notifications/styles.css";
 import "@/global.css";
+import { notificationOptions } from "@/data/managers/notification-manager";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -22,6 +25,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <MantineProvider theme={theme} defaultColorScheme="auto">
           <ThemeLoader />
           <ContextMenuProvider>
+            <Notifications {...notificationOptions} w="fit-content" />
             <ModalsProvider modals={modals}>
               <MainWindow />
             </ModalsProvider>
