@@ -33,7 +33,7 @@ impl FromStr for VideoStatus {
     }
 }
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Video {
     pub id: i64,
@@ -103,7 +103,23 @@ impl Tag {
     }
 }
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct VideoTag {
+    pub video_id: i64,
+    pub tag_id: i64,
+}
+
+impl VideoTag {
+    pub fn from_row(row: &rusqlite::Row) -> rusqlite::Result<Self> {
+        Ok(Self {
+            video_id: row.get(0)?,
+            tag_id: row.get(1)?,
+        })
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Channel {
     pub id: i64,
@@ -129,4 +145,13 @@ impl Channel {
             updated_at: row.get(7)?,
         })
     }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct DatabaseData {
+    pub videos: Vec<Video>,
+    pub channels: Vec<Channel>,
+    pub tags: Vec<Tag>,
+    pub video_tags: Vec<VideoTag>,
 }

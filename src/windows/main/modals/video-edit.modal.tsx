@@ -1,7 +1,12 @@
 import Stack from "@/components/ui/stack";
-import { Center, SegmentedControl } from "@mantine/core";
+import { Center, SegmentedControl, Title } from "@mantine/core";
 import { ContextModalProps } from "@mantine/modals";
-import { IconCheck, IconClock, IconDeviceFloppy } from "@tabler/icons-react";
+import {
+  IconCheck,
+  IconClock,
+  IconDeviceFloppy,
+  IconX,
+} from "@tabler/icons-react";
 import Text from "@/components/ui/text";
 import TagsCombobox from "../components/tags-combobox";
 import { useTags } from "@/data/hooks/queries/use-tags";
@@ -11,12 +16,16 @@ import { useAddVideoTag } from "@/data/hooks/mutations/use-add-video-tag";
 import { useRemoveVideoTag } from "@/data/hooks/mutations/use-remove-video-tag";
 import { VideoStatus } from "@/data/types/database.types";
 import VideoItemSimple from "../components/video-item-simple";
+import Group from "@/components/ui/group";
+import IconButton from "@/components/ui/icon-button";
 
 export interface VideoEditModalProps {
   videoId: number;
 }
 
 export default function VideoEditModal({
+  id,
+  context,
   innerProps,
 }: ContextModalProps<VideoEditModalProps>) {
   const { data: videoWithTags, isLoading: isVideoLoading } = useVideo(
@@ -91,14 +100,26 @@ export default function VideoEditModal({
   return (
     <Stack className="overflow-hidden px-2 pt-2" gap="md">
       <Stack gap={2}>
-        <Text
+        <Group justify="space-between">
+          <Title order={2}>Edit Video</Title>
+          <IconButton
+            radius="xl"
+            variant="subtle"
+            color="white"
+            onClick={() => context.closeModal(id)}
+          >
+            <IconX />
+          </IconButton>
+        </Group>
+
+        {/* <Text
           size="sm"
           c="white"
           fw={600}
           style={{ textTransform: "uppercase", letterSpacing: "0.5px" }}
         >
           Edit Video
-        </Text>
+        </Text> */}
         <VideoItemSimple
           thumbnail={video.thumbnail}
           title={video.title}
@@ -126,7 +147,7 @@ export default function VideoEditModal({
           onChange={handleStatusChange}
           data={videoStatusOptions}
           classNames={{
-            root: "bg-white/5 border border-white/10",
+            root: "bg-white/10 border border-white/10",
             indicator: "bg-blue-600 shadow-lg",
             label: "text-stone-300 hover:text-white transition-colors",
           }}
@@ -137,7 +158,7 @@ export default function VideoEditModal({
         <Text size="sm" c="white" fw={500}>
           Tags
         </Text>
-        <Stack className="justify-center rounded-md border border-white/10 bg-white/5 px-2">
+        <Stack className="justify-center rounded-md border border-white/10 bg-white/10 px-2">
           <TagsCombobox
             variant="unstyled"
             allTags={allTags || []}

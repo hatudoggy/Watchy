@@ -19,6 +19,7 @@ import TagsCombobox from "../../components/tags-combobox";
 import { useFilterTagsState } from "./hooks/use-filter-tags-state";
 import { useTagsFilter } from "@/data/states/use-tags-filter";
 import Text from "@/components/ui/text";
+import { modalsManager } from "../../modals/modals-manager";
 
 export default function SearchLayout() {
   const [searchFilter, setSearchFilter] = useSearchFilter();
@@ -163,7 +164,11 @@ function FiltersBar() {
 
 function SettingsButton() {
   return (
-    <IconButton variant="subtle" size="input-sm" onClick={() => {}}>
+    <IconButton
+      variant="subtle"
+      size="input-sm"
+      onClick={() => modalsManager.settings({})}
+    >
       <IconSettings size={20} />
     </IconButton>
   );

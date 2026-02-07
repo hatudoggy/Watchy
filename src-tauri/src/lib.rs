@@ -3,21 +3,31 @@ use std::sync::Mutex;
 use rusqlite::Connection;
 use tauri::Manager;
 
+use crate::constants::SETTINGS_FILE;
+use tauri_plugin_store::StoreExt;
+
 pub mod commands;
+pub mod constants;
 pub mod db;
 pub mod services;
+pub mod store;
 
 pub struct Db(pub Mutex<Connection>);
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_dialog::init())
+        .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(tauri_plugin_opener::init())
         .setup(|app| {
             let app_dir = app
                 .path()
                 .app_data_dir()
                 .expect("failed to resolve app data dir");
+
+            let settings_path = &app_dir.join(SETTINGS_FILE);
+            app.store(settings_path)?;
 
             let conn = db::connection::open_db(app_dir).expect("failed to open database");
 
@@ -38,6 +48,9 @@ pub fn run() {
             commands::library::add_tag,
             commands::library::edit_tag,
             commands::library::delete_tag,
+            commands::settings::set_download_path,
+            commands::settings::export_data,
+            commands::settings::import_data,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

@@ -12,7 +12,7 @@ import VideoThumbnail from "@/windows/main/components/video-thumbnail";
 import Group from "@/components/ui/group";
 import Stack from "@/components/ui/stack";
 import { modals } from "@mantine/modals";
-import { modalsManager } from "../../modals/modalsManager";
+import { modalsManager } from "../../modals/modals-manager";
 
 interface ListItemProps {
   id: number;
