@@ -1,5 +1,5 @@
 import { SettingsStore } from "../types/settings.types";
-import { invokeTauri } from "./invokeTauri";
+import { invokeTauri } from "./invoke-tauri";
 
 // =====================
 // SETTINGS COMMANDS

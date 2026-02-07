@@ -1,4 +1,4 @@
-import { invokeTauri } from "./invokeTauri";
+import { invokeTauri } from "./invoke-tauri";
 import {
   Channel,
   CreateTag,

@@ -1,5 +1,5 @@
 import { YoutubeMetadata } from "../types/youtube-parser.types";
-import { invokeTauri } from "./invokeTauri";
+import { invokeTauri } from "./invoke-tauri";
 
 export const fetchYoutubeMetadata = async (
   url: string,
