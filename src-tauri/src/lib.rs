@@ -3,7 +3,11 @@ use std::sync::Mutex;
 use rusqlite::Connection;
 use tauri::Manager;
 
+use crate::constants::SETTINGS_FILE;
+use tauri_plugin_store::StoreExt;
+
 pub mod commands;
+pub mod constants;
 pub mod db;
 pub mod services;
 
@@ -20,6 +24,9 @@ pub fn run() {
                 .path()
                 .app_data_dir()
                 .expect("failed to resolve app data dir");
+
+            let settings_path = &app_dir.join(SETTINGS_FILE);
+            app.store(settings_path)?;
 
             let conn = db::connection::open_db(app_dir).expect("failed to open database");
 
