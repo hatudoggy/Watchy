@@ -14,7 +14,7 @@ use crate::{
 };
 
 #[tauri::command]
-pub fn set_download_path(app: AppHandle) -> Result<String, String> {
+pub async fn set_download_path(app: AppHandle) -> Result<String, String> {
     let folder = retrieve_file_picker_folder_path(&app)?;
     let path: String = resolve_path_to_string(folder)?;
 
@@ -34,7 +34,7 @@ struct AppData {
 }
 
 #[tauri::command]
-pub fn export_data(app: AppHandle, db: State<Db>) -> Result<(), String> {
+pub async fn export_data(app: AppHandle, db: State<'_, Db>) -> Result<(), String> {
     // Open file picker
     // Save output folder to state
     let folder = retrieve_file_picker_folder_path(&app)?;
@@ -63,7 +63,7 @@ pub fn export_data(app: AppHandle, db: State<Db>) -> Result<(), String> {
 }
 
 #[tauri::command]
-pub fn import_data(app: AppHandle, db: State<Db>) -> Result<SettingsStore, String> {
+pub async fn import_data(app: AppHandle, db: State<'_, Db>) -> Result<SettingsStore, String> {
     // Open file picker
     let file = retrieve_file_picker_file_path(&app)?;
     let path = file.into_path().map_err(|e| e.to_string())?;
