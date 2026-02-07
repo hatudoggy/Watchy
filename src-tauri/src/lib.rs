@@ -10,6 +10,7 @@ pub mod commands;
 pub mod constants;
 pub mod db;
 pub mod services;
+pub mod store;
 
 pub struct Db(pub Mutex<Connection>);
 

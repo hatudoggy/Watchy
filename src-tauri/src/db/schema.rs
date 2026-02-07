@@ -33,7 +33,7 @@ impl FromStr for VideoStatus {
     }
 }
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Video {
     pub id: i64,
@@ -119,7 +119,7 @@ impl VideoTag {
     }
 }
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Channel {
     pub id: i64,
@@ -147,9 +147,9 @@ impl Channel {
     }
 }
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Database {
+pub struct DatabaseData {
     pub videos: Vec<Video>,
     pub channels: Vec<Channel>,
     pub tags: Vec<Tag>,

@@ -1,7 +1,7 @@
 use rusqlite::Connection;
 use watchy_lib::{
     db::{
-        schema::{Channel, Database, Tag, Video, VideoStatus, VideoTag},
+        schema::{Channel, DatabaseData, Tag, Video, VideoStatus, VideoTag},
         schema_init::init_schema,
     },
     services::settings::{export_db_data, import_db_data},
@@ -170,7 +170,7 @@ fn test_export_db_data_preserves_all_fields() {
 fn test_import_db_data_into_empty_database() {
     let mut conn = setup_test_db();
 
-    let database = Database {
+    let database = DatabaseData {
         channels: vec![Channel {
             id: 1,
             link: "https://youtube.com/@test".to_string(),
@@ -235,7 +235,7 @@ fn test_import_db_data_replaces_existing_data() {
     assert_eq!(initial.videos.len(), 2);
 
     // Import new data (should clear and replace)
-    let database = Database {
+    let database = DatabaseData {
         channels: vec![Channel {
             id: 99,
             link: "https://youtube.com/@newchannel".to_string(),
@@ -294,7 +294,7 @@ fn test_import_db_data_empty_import() {
     let mut conn = setup_test_db();
     setup_db_with_data(&conn);
 
-    let database = Database {
+    let database = DatabaseData {
         channels: vec![],
         videos: vec![],
         tags: vec![],
@@ -383,7 +383,7 @@ fn test_export_import_maintains_relationships() {
 fn test_import_db_data_multiple_times() {
     let mut conn = setup_test_db();
 
-    let database1 = Database {
+    let database1 = DatabaseData {
         channels: vec![Channel {
             id: 1,
             link: "https://youtube.com/@channel1".to_string(),
@@ -405,7 +405,7 @@ fn test_import_db_data_multiple_times() {
     assert_eq!(exported1.channels.len(), 1);
     assert_eq!(exported1.channels[0].name, "Channel 1");
 
-    let database2 = Database {
+    let database2 = DatabaseData {
         channels: vec![Channel {
             id: 2,
             link: "https://youtube.com/@channel2".to_string(),
@@ -435,7 +435,7 @@ fn test_import_db_data_preserves_timestamps() {
     let created_at = "2026-01-01 12:34:56";
     let updated_at = "2026-01-02 23:45:01";
 
-    let database = Database {
+    let database = DatabaseData {
         channels: vec![],
         videos: vec![],
         tags: vec![Tag {

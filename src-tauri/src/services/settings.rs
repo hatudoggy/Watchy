@@ -5,16 +5,16 @@ use crate::db::{
         batch_insert_channels, batch_insert_tags, batch_insert_video_tags, batch_insert_videos,
         clear_all_tables, list_all_channels, list_all_tags, list_all_video_tags, list_all_videos,
     },
-    schema::Database,
+    schema::DatabaseData,
 };
 
-pub fn export_db_data(conn: &Connection) -> Result<Database, String> {
+pub fn export_db_data(conn: &Connection) -> Result<DatabaseData, String> {
     let videos = list_all_videos(conn)?;
     let channels = list_all_channels(conn)?;
     let tags = list_all_tags(conn)?;
     let video_tags = list_all_video_tags(conn)?;
 
-    Ok(Database {
+    Ok(DatabaseData {
         videos,
         channels,
         tags,
@@ -22,7 +22,7 @@ pub fn export_db_data(conn: &Connection) -> Result<Database, String> {
     })
 }
 
-pub fn import_db_data(conn: &mut Connection, data: Database) -> Result<(), String> {
+pub fn import_db_data(conn: &mut Connection, data: DatabaseData) -> Result<(), String> {
     let tx = conn.transaction().map_err(|e| e.to_string())?;
 
     // Clear data for now to prevent key conflict
